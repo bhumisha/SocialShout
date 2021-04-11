@@ -1,6 +1,8 @@
 const { User , Thought } = require('../models');
 
 const thoughtController = {
+
+    //Get all thoughts
     getAllThoughts(req,res){
         Thought.find({})
         .select('-__v')
@@ -13,6 +15,8 @@ const thoughtController = {
             res.status(400).json(err);
         })
     },
+
+    //Select Thought By Id
     getThoughtById({params},res){
         Thought.findById(params.id)
         .select('-__v')
@@ -29,8 +33,9 @@ const thoughtController = {
             res.status(400).json(err);
         })
     },
-    createThought({body},res){
 
+    //Create new Thought 
+    createThought({body},res){
         Thought.create(body)
         .then(({ _id }) => {
             return User.findOneAndUpdate(
@@ -45,6 +50,8 @@ const thoughtController = {
             res.status(400).json(err);
         })
     },
+
+    //Update selected Thought 
     updateThought({params,body},res){
         Thought.findByIdAndUpdate(params.id,body,{new:true})
         .then(dbThoughtsData => {
@@ -60,6 +67,8 @@ const thoughtController = {
         })
         
     },
+
+    //Delete selected Thought 
     deleteThought({params},res){
         Thought.findByIdAndDelete(params.id)
         .then(dbThoughtsData => {
@@ -81,6 +90,8 @@ const thoughtController = {
         })
         
     },
+
+    //Add Reaction for selected Thought
     addReaction({params,body},res){
         Thought.findOneAndUpdate(
             {_id:params.thoughtId},
@@ -99,6 +110,8 @@ const thoughtController = {
             res.status(500).json(err);
         })
     },
+
+    //Delete Reaction of selected Thoughts
     deleteReaction({params},res){
         Thought.findOneAndUpdate(
             {_id:params.thoughtId},

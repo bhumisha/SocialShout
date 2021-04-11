@@ -2,7 +2,7 @@ const { User, Thought  } = require('../models');
 
 
 const userController = {
-    //Get all users data
+    //Get all users data along with Users thoughts and friends.
     getAllUsers(req,res){
         User.find({})
         .populate({
@@ -24,6 +24,7 @@ const userController = {
         })
     },
 
+    //Get single users by Id data along with Users thoughts and friends.
     getUserById({params},res){
         User.findById(params.id)
         .populate({
@@ -49,6 +50,8 @@ const userController = {
         })
         
     },
+
+    //Create new User for user and friend
     createUser({body},res){
         User.create(body)
         .then(dbUserData => {
@@ -59,6 +62,8 @@ const userController = {
             res.status(400).json(err);
         })
     },
+
+    //Update user 
     updateUser({params,body},res){
         User.findByIdAndUpdate(params.id,body,{new:true})
         .then(dbUserData => {
@@ -74,6 +79,8 @@ const userController = {
         })
         
     },
+
+    //Delete user with its all thoughts.
     deleteUser({params},res){
         User.findByIdAndDelete(params.id)
         .then(dbUserData => {
@@ -85,7 +92,7 @@ const userController = {
             // res.json(dbUserData);
         })
         .then(dbThought => {
-            if(!dbUserData){
+            if(!dbThought){
                 res.json({ message: 'User got deleted successfully' });
                 return;
             }
@@ -97,6 +104,8 @@ const userController = {
         })
         
     },
+
+    //Create Friend ( users are ready we are mapping user with another user as friends)
     createFriend({params},res){
         const { userId, friendId} = params
         User.findOneAndUpdate({_id:userId},{ $push: { friends: friendId } }, { new: true })
@@ -112,6 +121,8 @@ const userController = {
             res.status(400).json(err);
         })
     },
+
+    //Delete Friend - means remove user's assositation with another user 
     deleteFriend({params},res){
         const { userId, friendId} = params
         User.findOneAndUpdate({_id:userId},{ $pull: { friends: friendId } }, { new: true })
