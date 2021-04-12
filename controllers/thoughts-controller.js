@@ -77,13 +77,18 @@ const thoughtController = {
                 return;
             }
             return User.findOneAndUpdate(
-                { _id: dbThoughtsData.userId },
+                { username: dbThoughtsData.username },
                 { $pull: { thoughts: params.id } },
                 { new: true }
               );
             // return  res.json({ message: 'Selected Thought deleted successfully ' });
         })
-        .then(dbUserdata => res.json(dbUserdata))
+        .then(dbUserdata => {
+            if(!dbUserdata){
+                res.json("Thoghts deleted successfully");
+            }
+            res.json(dbUserdata)
+        })
         .catch(err => {
             console.log(err);
             res.status(500).json(err);

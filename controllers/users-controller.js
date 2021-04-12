@@ -96,6 +96,7 @@ const userController = {
                 res.json({ message: 'User got deleted successfully' });
                 return;
             }
+            res.json("User and all thoughts deleted successfully")
 
         })
         .catch(err => {
