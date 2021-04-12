@@ -3,9 +3,9 @@
     user or other friend/users can also add their reactions on thoughts which are shared by users.
 
 ### Technology 
-- MVC (Model View Controller) pattern 
+    - MVC (Model View Controller) pattern -This project we dont have View. 
     - Mongoose api which help to connect Mongo DB
-    - Mongo Db
+    - Mongo Db ( you can install mongo thru homebrew)
     - Node.JS
     - Express
 
